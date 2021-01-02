@@ -1,0 +1,22 @@
+{
+    "name": "hexlet/code",
+    "description": "",
+    "bin": [
+        "bin/gendiff"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "src/Docopt/Load.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Alexey Ponomarev",
+            "email": "taponomarev@gmail.com"
+        }
+    ],
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
