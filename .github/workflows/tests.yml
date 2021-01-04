@@ -18,11 +18,10 @@ jobs:
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
           coverageCommand: make publish-coverage
           coverageLocations: |
             ${{github.workspace}}/coverage.xml:clover
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
