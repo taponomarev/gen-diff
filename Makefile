@@ -20,7 +20,7 @@ tests:
 	composer exec --verbose phpunit tests
 
 publish-coverage:
-	export XDEBUG_MODE=coverage; vendor/bin/phpunit --coverage-clover coverage.xml
+	export XDEBUG_MODE=coverage; vendor/bin/phpunit --coverage-clover coverage.xml tests
 
 
 .PHONY: tests
