@@ -16,5 +16,11 @@ gendiff-version:
 lint:
 	composer run-script phpcs -- --standard=PSR12 src bin
 
-test:
+tests:
 	composer exec --verbose phpunit tests
+
+publish-coverage:
+	export XDEBUG_MODE=coverage; vendor/bin/phpunit --coverage-clover coverage.xml
+
+
+.PHONY: tests
