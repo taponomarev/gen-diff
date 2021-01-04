@@ -1,6 +1,8 @@
 <?php
 
-namespace Gendiff\Docopt\Load;
+namespace Differ\Cli;
+
+use function App\Differ\genDiff;
 
 const DOC = <<<DOC
 Generate diff
@@ -17,12 +19,17 @@ Options:
 
 DOC;
 
-function load()
+function run()
 {
     $handler = new \Docopt\Handler(array(
-        'help'=>true,
-        'version'=>"Beta 1.0.0",
-        'optionsFirst'=>false,
+        'help' => true,
+        'version' => "Beta 1.0.0",
+        'optionsFirst' => false,
     ));
-    $handler->handle(DOC);
+    $params = $handler->handle(DOC);
+
+    ['<firstFile>' => $firstPathToFile, '<secondFile>' => $secondPathToFile] = $params->args;
+
+    $diff = genDiff($firstPathToFile, $secondPathToFile);
+    print_r($diff);
 }

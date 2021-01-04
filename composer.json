@@ -4,10 +4,16 @@
     "bin": [
         "bin/gendiff"
     ],
+    "scripts": {
+        "phpcs": "phpcs",
+        "test": "phpunit tests"
+    },
     "license": "MIT",
     "autoload": {
         "files": [
-            "src/Docopt/Load.php"
+            "src/Cli.php",
+            "src/Differ.php",
+            "src/Parser.php"
         ]
     },
     "authors": [
@@ -17,6 +23,11 @@
         }
     ],
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "funct/funct": "^1.5"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpunit/phpunit": "^9.5"
     }
 }
