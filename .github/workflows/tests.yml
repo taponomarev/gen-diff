@@ -3,25 +3,24 @@ name: Tests
 on: push
 
 jobs:
-  start-linter:
-    runs-on: ubuntu-20.04
+  lint:
+    name: Test code base
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
       - name: Install dependencies
         run: make install
-      - name: Run tests
-        run: make tests
-      - name: Publish code coverage
+      - name: Run tests & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
-          coverageCommand: make publish-coverage
+          coverageCommand: make tests-coverage
           coverageLocations: |
             ${{github.workspace}}/coverage.xml:clover

@@ -19,8 +19,7 @@ lint:
 tests:
 	composer exec --verbose phpunit tests
 
-publish-coverage:
+tests-coverage:
 	export XDEBUG_MODE=coverage; vendor/bin/phpunit --coverage-clover coverage.xml tests
-
 
 .PHONY: tests
