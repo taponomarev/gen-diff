@@ -5,6 +5,9 @@ namespace Differ\Tests;
 use PHPUnit\Framework\TestCase;
 use function Differ\Differ\genDiff;
 
+/**
+ * @covers DifferTest
+ */
 class DifferTest extends TestCase
 {
     private $firstPath;
@@ -16,9 +19,6 @@ class DifferTest extends TestCase
         $this->secondPath = __DIR__ . '/fixtures/file2.json';
     }
 
-    /**
-     * @covers       \Differ\Differ\testGenDiff
-     */
     public function testGenDiff()
     {
         $ast = [
@@ -34,9 +34,6 @@ class DifferTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @covers       \Differ\Differ\testGenDiff
-     */
     public function testWrongGenDiff()
     {
         $ast = [];
