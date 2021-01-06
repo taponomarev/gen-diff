@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":254:{a:2:{s:7:"defects";a:2:{s:36:"Differ\Tests\DifferTest::testGenDiff";i:5;s:41:"Differ\Tests\DifferTest::testWrongGenDiff";i:5;}s:5:"times";a:2:{s:36:"Differ\Tests\DifferTest::testGenDiff";d:0.004;s:41:"Differ\Tests\DifferTest::testWrongGenDiff";d:0.036;}}}
