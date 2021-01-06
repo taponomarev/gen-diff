@@ -20,6 +20,6 @@ tests:
 	composer exec --verbose phpunit tests
 
 tests-coverage:
-	composer exec --verbose phpunit tests -- --coverage-clover logs/clover.xml
+	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
 
 .PHONY: tests
