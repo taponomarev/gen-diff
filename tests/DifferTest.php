@@ -6,8 +6,9 @@ use PHPUnit\Framework\TestCase;
 use function Differ\Differ\genDiff;
 
 /**
- * @covers DifferTest
+ * @covers Differ\Tests\DifferTest
  */
+
 class DifferTest extends TestCase
 {
     private $firstPath;
