@@ -7,6 +7,8 @@ use function Differ\Differ\genDiff;
 
 /**
  * @covers Differ\Tests\DifferTest
+ * @covers Differ\Differ\genDiff
+ * @covers Differ\Parser\parseFile
  */
 
 class DifferTest extends TestCase
