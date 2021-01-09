@@ -11,6 +11,7 @@ use function Differ\Differ\genDiff;
  * @covers Differ\Parsers\parseFile
  * @covers Differ\Formaters\parseFormat
  * @covers Differ\Formaters\parseStylish
+ * @covers Differ\Differ\formatValue
  */
 
 class DifferTest extends TestCase
