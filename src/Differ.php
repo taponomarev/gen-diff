@@ -2,8 +2,6 @@
 
 namespace Differ\Differ;
 
-use Symfony\Component\Yaml\Yaml;
-
 const DIFF_TYPE_ADDED = 'added';
 const DIFF_TYPE_REMOVED = 'removed';
 const DIFF_TYPE_UPDATED = 'update';
@@ -13,7 +11,7 @@ const PROPERTY_OLD_VALUE = 'old_value';
 const PROPERTY_DIFF_KEY = 'key';
 const PROPERTY_DIFF_TYPE = 'type';
 
-use function Differ\Parser\parseFile;
+use function Differ\Parsers\parseFile;
 use function Differ\Formaters\parseFormat;
 
 function genDiff($pathToFile1, $pathToFile2, $format)
