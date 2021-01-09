@@ -8,7 +8,9 @@ use function Differ\Differ\genDiff;
 /**
  * @covers Differ\Tests\DifferTest
  * @covers Differ\Differ\genDiff
- * @covers Differ\Parser\parseFile
+ * @covers Differ\Parsers\parseFile
+ * @covers Differ\Formaters\parseFormat
+ * @covers Differ\Formaters\parseStylish
  */
 
 class DifferTest extends TestCase

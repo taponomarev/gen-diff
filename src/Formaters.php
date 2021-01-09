@@ -14,12 +14,8 @@ use const Differ\Differ\PROPERTY_OLD_VALUE;
 function parseFormat($ast, $format)
 {
     switch ($format) {
-        case 'json':
-            return parseJson($ast);
         case 'stylish':
             return parseStylish($ast);
-        case 'yml':
-            return parseYml($ast);
         default:
             return parseStylish($ast);
     }
