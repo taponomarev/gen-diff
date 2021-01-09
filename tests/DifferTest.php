@@ -13,35 +13,32 @@ use function Differ\Differ\genDiff;
 
 class DifferTest extends TestCase
 {
-    private $firstPath;
-    private $secondPath;
-
-    public function setUp(): void
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testGenDiffSuccess(string $filename1, string $filename2, string $format, string $resultFilename): void
     {
-        $this->firstPath = __DIR__ . '/fixtures/file1.json';
-        $this->secondPath = __DIR__ . '/fixtures/file2.json';
+        $actualString = genDiff(
+            $this->generateFixturePath($filename1), 
+            $this->generateFixturePath($filename2), 
+            $format
+        );
+        $this->assertStringEqualsFile(
+            $this->generateFixturePath($resultFilename), 
+            $actualString
+        );
     }
 
-    public function testGenDiff()
+    public function generateFixturePath(string $filename): string
     {
-        $ast = [
-            '-follow' => false,
-            'host' => 'hexlet.io',
-            '-proxy' => '123.234.53.22',
-            '-timeout' => 50,
-            '+timeout' => 20,
-            '+verbose' => true
+        return implode(DIRECTORY_SEPARATOR, ['tests', 'fixtures', $filename]);
+    }
+
+    public function additionProvider(): array
+    {
+        return [
+            ['file1.json', 'file2.json', 'stylish', 'result_json.txt'],
+            ['file1.yml', 'file2.yml', 'stylish', 'result_yml.txt'],
         ];
-        $expected = \json_encode($ast, JSON_PRETTY_PRINT) . PHP_EOL;
-        $actual = genDiff($this->firstPath, $this->secondPath);
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testWrongGenDiff()
-    {
-        $ast = [];
-        $expected = \json_encode($ast, JSON_PRETTY_PRINT) . PHP_EOL;
-        $actual = genDiff($this->firstPath, $this->secondPath);
-        $this->assertFalse($expected == $actual);
     }
 }

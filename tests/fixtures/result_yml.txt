@@ -1,0 +1,8 @@
+{
+  - employed: true
+  + employed: false
+  - job: Developer
+  + job: Web disaigner
+    name: Martin D'vloper
+  - skill: Elite
+}

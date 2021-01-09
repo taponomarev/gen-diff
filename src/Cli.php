@@ -2,7 +2,7 @@
 
 namespace Differ\Cli;
 
-use function App\Differ\genDiff;
+use function Differ\Differ\genDiff;
 
 const DOC = <<<DOC
 Generate diff
@@ -28,8 +28,12 @@ function run()
     ));
     $params = $handler->handle(DOC);
 
-    ['<firstFile>' => $firstPathToFile, '<secondFile>' => $secondPathToFile] = $params->args;
+    [
+      '<firstFile>' => $firstPathToFile,
+      '<secondFile>' => $secondPathToFile,
+      '--format' => $format
+    ] = $params->args;
 
-    $diff = genDiff($firstPathToFile, $secondPathToFile);
-    print_r($diff);
+    $diff = genDiff($firstPathToFile, $secondPathToFile, $format);
+    print_r($diff . PHP_EOL);
 }
