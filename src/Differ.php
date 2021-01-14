@@ -5,67 +5,68 @@ namespace Differ\Differ;
 const DIFF_TYPE_ADDED = 'added';
 const DIFF_TYPE_REMOVED = 'removed';
 const DIFF_TYPE_UPDATED = 'update';
+const DIFF_TYPE_OBJECT = 'object';
 const DIFF_TYPE_UNCHANGED = 'unchanged';
 const PROPERTY_NEW_VALUE = 'new_value';
 const PROPERTY_OLD_VALUE = 'old_value';
 const PROPERTY_DIFF_KEY = 'key';
 const PROPERTY_DIFF_TYPE = 'type';
+const PROPERTY_DIFF_OBJECT_CHILDREN = 'object_children';
+const INDENT_DOUBLE = '    ';
+const INDENT_DEFAULT = '  ';
+const INDENT_ADD = '+ ';
+const INDENT_REMOVE = '- ';
+const INDENT_COLON = ': ';
 
 use function Differ\Parsers\parseFile;
-use function Differ\Formaters\parseFormat;
+use function Differ\Formatters\format;
 
 function genDiff($pathToFile1, $pathToFile2, $format)
 {
-    $fileData1 = parseFile($pathToFile1);
-    $fileData2 = parseFile($pathToFile2);
-
-    $keys = array_merge(array_keys($fileData1), array_keys($fileData2));
-    $keys = array_unique($keys);
-    sort($keys);
-    $ast = [];
-
-    foreach ($keys as $key) {
-        if (!array_key_exists($key, $fileData1)) {
-            $ast[] = [
-                PROPERTY_DIFF_KEY => $key,
-                PROPERTY_DIFF_TYPE => DIFF_TYPE_ADDED,
-                PROPERTY_NEW_VALUE => formatValue($fileData2[$key])
-            ];
-        } elseif (!array_key_exists($key, $fileData2)) {
-            $ast[] = [
-                PROPERTY_DIFF_KEY => $key,
-                PROPERTY_DIFF_TYPE => DIFF_TYPE_REMOVED,
-                PROPERTY_OLD_VALUE => formatValue($fileData1[$key])
-            ];
-        } elseif ($fileData1[$key] !== $fileData2[$key]) {
-            $ast[] = [
-                PROPERTY_DIFF_KEY => $key,
-                PROPERTY_DIFF_TYPE => DIFF_TYPE_UPDATED,
-                PROPERTY_OLD_VALUE => formatValue($fileData1[$key]),
-                PROPERTY_NEW_VALUE => formatValue($fileData2[$key])
-            ];
-        } else {
-            $ast[] = [
-                PROPERTY_DIFF_KEY => $key,
-                PROPERTY_DIFF_TYPE => DIFF_TYPE_UNCHANGED,
-                PROPERTY_OLD_VALUE => formatValue($fileData1[$key]),
-            ];
-        }
-    }
-
-    return parseFormat($ast, $format);
+    $firstFile = parseFile($pathToFile1);
+    $secondFile = parseFile($pathToFile2);
+    $ast = genDiffThree($firstFile, $secondFile);
+    return format($ast, $format);
 }
 
-function formatValue($value)
+function genDiffThree(object $firstFile, object $secondFile)
 {
-    $typesMap = [
-        'boolean' => fn($value) => $value ? 'true' : 'false',
-    ];
-    $variableType = gettype($value);
+    $mergedKeys = array_merge(array_keys((array) $firstFile), array_keys((array) $secondFile));
+    $keys = array_unique($mergedKeys);
+    sort($keys);
 
-    if (isset($typesMap[$variableType])) {
-        return $typesMap[$variableType]($value);
-    }
+    return array_map(function ($key) use ($firstFile, $secondFile) {
+        if (!property_exists($firstFile, $key)) {
+            return [
+                PROPERTY_DIFF_KEY => $key,
+                PROPERTY_DIFF_TYPE => DIFF_TYPE_ADDED,
+                PROPERTY_NEW_VALUE => $secondFile->$key
+            ];
+        } elseif (!property_exists($secondFile, $key)) {
+            return [
+                PROPERTY_DIFF_KEY => $key,
+                PROPERTY_DIFF_TYPE => DIFF_TYPE_REMOVED,
+                PROPERTY_OLD_VALUE => $firstFile->$key
+            ];
+        } elseif ($firstFile->$key === $secondFile->$key) {
+            return [
+                PROPERTY_DIFF_KEY => $key,
+                PROPERTY_DIFF_TYPE => DIFF_TYPE_UNCHANGED,
+                PROPERTY_OLD_VALUE => $secondFile->$key,
+            ];
+        } elseif (is_object($firstFile->$key) && is_object($secondFile->$key)) {
+            return [
+                PROPERTY_DIFF_KEY => $key,
+                PROPERTY_DIFF_TYPE => DIFF_TYPE_OBJECT,
+                PROPERTY_DIFF_OBJECT_CHILDREN => genDiffThree($firstFile->$key, $secondFile->$key)
+            ];
+        }
 
-    return $value;
+        return [
+            PROPERTY_DIFF_KEY => $key,
+            PROPERTY_DIFF_TYPE => DIFF_TYPE_UPDATED,
+            PROPERTY_OLD_VALUE => $firstFile->$key,
+            PROPERTY_NEW_VALUE => $secondFile->$key
+        ];
+    }, $keys);
 }

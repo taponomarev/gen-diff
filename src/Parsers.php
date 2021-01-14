@@ -13,9 +13,9 @@ function parseFile($fileToPath)
     switch ($extension) {
         case EXT_JSON:
             $fileData = file_get_contents($fileToPath);
-            return json_decode($fileData, true);
+            return (object) json_decode($fileData);
         case EXT_YAML:
-            return Yaml::parseFile($fileToPath);
+            return (object) Yaml::parseFile($fileToPath, Yaml::PARSE_OBJECT_FOR_MAP);
         default:
             break;
     }
