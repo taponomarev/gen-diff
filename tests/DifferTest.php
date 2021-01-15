@@ -10,6 +10,8 @@ use function Differ\Differ\genDiff;
  * @covers Differ\Differ\genDiff
  * * @covers Differ\Differ\genDiffThree
  * @covers Differ\Parsers\parseFile
+ * @covers Differ\Parsers\Json\parse
+ * @covers Differ\Parsers\Yml\parse
  * @covers Differ\Parsers\isFileReadable
  * @covers Differ\Formatters\format
  * @covers Differ\Formatters\Stylish\buildFormat
