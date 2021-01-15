@@ -14,8 +14,11 @@
             "src/Cli.php",
             "src/Differ.php",
             "src/Parsers.php",
+            "src/Parsers/Json.php",
+            "src/Parsers/Yml.php",
             "src/Formatters.php",
-            "src/Formatters/Stylish.php"
+            "src/Formatters/Stylish.php",
+            "src/Formatters/Plain.php"
         ]
     },
     "authors": [

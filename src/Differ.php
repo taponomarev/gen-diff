@@ -12,16 +12,12 @@ const PROPERTY_OLD_VALUE = 'old_value';
 const PROPERTY_DIFF_KEY = 'key';
 const PROPERTY_DIFF_TYPE = 'type';
 const PROPERTY_DIFF_OBJECT_CHILDREN = 'object_children';
-const INDENT_DOUBLE = '    ';
-const INDENT_DEFAULT = '  ';
-const INDENT_ADD = '+ ';
-const INDENT_REMOVE = '- ';
-const INDENT_COLON = ': ';
+const DIFF_DEFAULT_FORMAT = 'stylish';
 
 use function Differ\Parsers\parseFile;
 use function Differ\Formatters\format;
 
-function genDiff($pathToFile1, $pathToFile2, $format)
+function genDiff($pathToFile1, $pathToFile2, $format = DIFF_DEFAULT_FORMAT)
 {
     $firstFile = parseFile($pathToFile1);
     $secondFile = parseFile($pathToFile2);

@@ -2,23 +2,24 @@
 
 namespace Differ\Formatters\Stylish;
 
+const INDENT_DOUBLE = '    ';
+const INDENT_DEFAULT = '  ';
+const INDENT_ADD = '+ ';
+const INDENT_REMOVE = '- ';
+const INDENT_COLON = ': ';
+
 use const Differ\Differ\DIFF_TYPE_ADDED;
 use const Differ\Differ\DIFF_TYPE_OBJECT;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
 use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_UPDATED;
-use const Differ\Differ\INDENT_ADD;
-use const Differ\Differ\INDENT_COLON;
-use const Differ\Differ\INDENT_DEFAULT;
-use const Differ\Differ\INDENT_DOUBLE;
-use const Differ\Differ\INDENT_REMOVE;
 use const Differ\Differ\PROPERTY_DIFF_KEY;
 use const Differ\Differ\PROPERTY_DIFF_OBJECT_CHILDREN;
 use const Differ\Differ\PROPERTY_DIFF_TYPE;
 use const Differ\Differ\PROPERTY_NEW_VALUE;
 use const Differ\Differ\PROPERTY_OLD_VALUE;
 
-function buildFormat(array $three)
+function buildFormat(array $three): string
 {
     return "{\n" . buildFormatThree($three, 1) . "}\n";
 }
