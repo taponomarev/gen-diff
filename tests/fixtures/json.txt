@@ -1,0 +1,127 @@
+[
+    {
+        "key": "common",
+        "type": "object",
+        "children": [
+            {
+                "key": "setting1",
+                "type": "unchanged",
+                "old_value": "Value 1"
+            },
+            {
+                "key": "setting2",
+                "type": "removed",
+                "old_value": 200
+            },
+            {
+                "key": "setting3",
+                "type": "update",
+                "old_value": true,
+                "new_value": null
+            },
+            {
+                "key": "setting6",
+                "type": "object",
+                "children": [
+                    {
+                        "key": "key",
+                        "type": "unchanged",
+                        "old_value": "value"
+                    },
+                    {
+                        "key": "doge",
+                        "type": "object",
+                        "children": [
+                            {
+                                "key": "wow",
+                                "type": "update",
+                                "old_value": 1,
+                                "new_value": "so much"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "ops",
+                        "type": "added",
+                        "new_value": "vops"
+                    }
+                ]
+            },
+            {
+                "key": "follow",
+                "type": "added",
+                "new_value": false
+            },
+            {
+                "key": "setting4",
+                "type": "added",
+                "new_value": "blah blah"
+            },
+            {
+                "key": "setting5",
+                "type": "added",
+                "new_value": {
+                    "key5": "value5"
+                }
+            }
+        ]
+    },
+    {
+        "key": "group1",
+        "type": "object",
+        "children": [
+            {
+                "key": "baz",
+                "type": "update",
+                "old_value": "bas",
+                "new_value": "bars"
+            },
+            {
+                "key": "foo",
+                "type": "unchanged",
+                "old_value": "bar"
+            },
+            {
+                "key": "nest",
+                "type": "update",
+                "old_value": {
+                    "key": "value"
+                },
+                "new_value": "str"
+            }
+        ]
+    },
+    {
+        "key": "group2",
+        "type": "removed",
+        "old_value": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    },
+    {
+        "key": "group_array",
+        "type": "removed",
+        "old_value": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "key": "group3",
+        "type": "added",
+        "new_value": {
+            "fee": 100500,
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            }
+        }
+    }
+]

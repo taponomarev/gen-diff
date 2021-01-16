@@ -19,12 +19,12 @@ use const Differ\Differ\PROPERTY_DIFF_TYPE;
 use const Differ\Differ\PROPERTY_NEW_VALUE;
 use const Differ\Differ\PROPERTY_OLD_VALUE;
 
-function buildFormat(array $three): string
+function buildFormat(array $tree): string
 {
-    return "{\n" . buildFormatThree($three, 1) . "}\n";
+    return "{\n" . buildFormatTree($tree, 1) . "}\n";
 }
 
-function buildFormatThree(array $three, int $depth): string
+function buildFormatTree(array $tree, int $depth): string
 {
     $indent = str_repeat(INDENT_DOUBLE, $depth - 1) . INDENT_DEFAULT;
     $formatterMap = [
@@ -43,15 +43,18 @@ function buildFormatThree(array $three, int $depth): string
             . formatValue($node[PROPERTY_NEW_VALUE], $depth),
 
         DIFF_TYPE_OBJECT => fn($node) => $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY] . INDENT_COLON . "{\n"
-            . buildFormatThree($node[PROPERTY_DIFF_OBJECT_CHILDREN], $depth + 1)
+            . buildFormatTree($node[PROPERTY_DIFF_OBJECT_CHILDREN], $depth + 1)
             . $indent . INDENT_DEFAULT . "}"
     ];
 
-    $formattersData = array_map(function ($node) use ($formatterMap) {
-        return $formatterMap[$node[PROPERTY_DIFF_TYPE]]($node) . "\n";
-    }, $three);
+    $collection = collect($tree);
+    $sortedThree = $collection->sortBy('key')->toArray();
 
-    return implode('', $formattersData);
+    $formatterData = array_map(function ($node) use ($formatterMap) {
+        return $formatterMap[$node[PROPERTY_DIFF_TYPE]]($node) . "\n";
+    }, $sortedThree);
+
+    return implode('', $formatterData);
 }
 
 function formatValue($value, $depth): string

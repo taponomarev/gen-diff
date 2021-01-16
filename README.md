@@ -1,3 +1,7 @@
+# GenDiff
+
+The library compares the difference of two files
+
 [![Actions Status](https://github.com/taponomarev/php-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/taponomarev/php-project-lvl2/actions)
 [![Build Status](https://github.com/taponomarev/php-project-lvl2/workflows/Build/badge.svg)](https://github.com/taponomarev/php-project-lvl2/actions)
 [![Tests Status](https://github.com/taponomarev/php-project-lvl2/workflows/Tests/badge.svg)](https://github.com/taponomarev/php-project-lvl2/actions)
@@ -6,4 +10,21 @@
 
 ## Usage
 
--  (https://asciinema.org/a/HlKCA8MOKQwEppq2Hhm19f1at)
+```bash
+./bin/gendiff -h                              
+Generate diff
+
+Usage:
+  gendiff (-h|--help)
+  gendiff (-v|--version)
+  gendiff [--format <fmt>] <firstFile> <secondFile>
+
+Options:
+  -h --help                     Show this screen
+  -v --version                  Show version
+  --format <fmt>                Report format [default: stylish]
+
+```
+## Demo
+
+[![asciicast](https://asciinema.org/a/JAWXRIcVEJjO8jTKL2AE8CGzk.svg)](https://asciinema.org/a/JAWXRIcVEJjO8jTKL2AE8CGzk)

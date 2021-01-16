@@ -8,18 +8,19 @@ use function Differ\Differ\genDiff;
 /**
  * @covers Differ\Tests\DifferTest
  * @covers Differ\Differ\genDiff
- * * @covers Differ\Differ\genDiffThree
+ * @covers Differ\Differ\genDiffTree
  * @covers Differ\Parsers\parseFile
  * @covers Differ\Parsers\Json\parse
  * @covers Differ\Parsers\Yml\parse
  * @covers Differ\Parsers\isFileReadable
  * @covers Differ\Formatters\format
  * @covers Differ\Formatters\Stylish\buildFormat
- * @covers Differ\Formatters\Stylish\buildFormatThree
+ * @covers Differ\Formatters\Stylish\buildFormatTree
  * @covers Differ\Formatters\Stylish\formatValue
  * @covers Differ\Formatters\Plain\formatValue
  * @covers Differ\Formatters\Plain\buildFormat
- * @covers Differ\Formatters\Plain\buildFormatThree
+ * @covers Differ\Formatters\Plain\buildFormatTree
+ * @covers Differ\Formatters\Json\buildFormat
  */
 
 class DifferTest extends TestCase
@@ -88,7 +89,9 @@ class DifferTest extends TestCase
             ['file1.json', 'file2.json', 'stylish', 'stylish.txt'],
             ['file1.yml', 'file2.yml', 'stylish', 'stylish.txt'],
             ['file1.json', 'file2.json', 'plain', 'plain.txt'],
-            ['file1.yml', 'file2.yml', 'plain', 'plain.txt']
+            ['file1.yml', 'file2.yml', 'plain', 'plain.txt'],
+            ['file1.json', 'file2.json', 'json', 'json.txt'],
+            ['file1.yml', 'file2.yml', 'json', 'json.txt']
         ];
     }
 }

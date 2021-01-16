@@ -11,27 +11,26 @@ const PROPERTY_NEW_VALUE = 'new_value';
 const PROPERTY_OLD_VALUE = 'old_value';
 const PROPERTY_DIFF_KEY = 'key';
 const PROPERTY_DIFF_TYPE = 'type';
-const PROPERTY_DIFF_OBJECT_CHILDREN = 'object_children';
+const PROPERTY_DIFF_OBJECT_CHILDREN = 'children';
 const DIFF_DEFAULT_FORMAT = 'stylish';
 
 use function Differ\Parsers\parseFile;
 use function Differ\Formatters\format;
 
-function genDiff($pathToFile1, $pathToFile2, $format = DIFF_DEFAULT_FORMAT)
+function genDiff($pathToFile1, $pathToFile2, $format = DIFF_DEFAULT_FORMAT): string
 {
     $firstFile = parseFile($pathToFile1);
     $secondFile = parseFile($pathToFile2);
-    $ast = genDiffThree($firstFile, $secondFile);
+    $ast = genDiffTree($firstFile, $secondFile);
     return format($ast, $format);
 }
 
-function genDiffThree(object $firstFile, object $secondFile)
+function genDiffTree(object $firstFile, object $secondFile): array
 {
     $mergedKeys = array_merge(array_keys((array) $firstFile), array_keys((array) $secondFile));
-    $keys = array_unique($mergedKeys);
-    sort($keys);
+    $keys = array_values(array_unique($mergedKeys));
 
-    return array_map(function ($key) use ($firstFile, $secondFile) {
+    return array_map(function (string $key) use ($firstFile, $secondFile): array {
         if (!property_exists($firstFile, $key)) {
             return [
                 PROPERTY_DIFF_KEY => $key,
@@ -54,7 +53,7 @@ function genDiffThree(object $firstFile, object $secondFile)
             return [
                 PROPERTY_DIFF_KEY => $key,
                 PROPERTY_DIFF_TYPE => DIFF_TYPE_OBJECT,
-                PROPERTY_DIFF_OBJECT_CHILDREN => genDiffThree($firstFile->$key, $secondFile->$key)
+                PROPERTY_DIFF_OBJECT_CHILDREN => genDiffTree($firstFile->$key, $secondFile->$key)
             ];
         }
 

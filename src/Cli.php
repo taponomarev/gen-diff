@@ -19,7 +19,7 @@ Options:
 
 DOC;
 
-function run()
+function run(): void
 {
     $handler = new \Docopt\Handler(array(
         'help' => true,

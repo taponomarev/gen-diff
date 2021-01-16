@@ -12,12 +12,12 @@ use const Differ\Differ\PROPERTY_DIFF_TYPE;
 use const Differ\Differ\PROPERTY_NEW_VALUE;
 use const Differ\Differ\PROPERTY_OLD_VALUE;
 
-function buildFormat(array $three): string
+function buildFormat(array $tree): string
 {
-    return buildFormatThree($three);
+    return buildFormatTree($tree);
 }
 
-function buildFormatThree(array $three, $key = null): string
+function buildFormatTree(array $tree, $key = null): string
 {
     $formatKeysMap = fn($key, $node) => $key ? "{$key}.{$node[PROPERTY_DIFF_KEY]}" : $node[PROPERTY_DIFF_KEY];
     $formatterMap = [
@@ -30,17 +30,20 @@ function buildFormatThree(array $three, $key = null): string
             . formatValue($node[PROPERTY_OLD_VALUE]) . " to "
             . formatValue($node[PROPERTY_NEW_VALUE]),
 
-        DIFF_TYPE_OBJECT => fn($node) => buildFormatThree(
+        DIFF_TYPE_OBJECT => fn($node) => buildFormatTree(
             $node[PROPERTY_DIFF_OBJECT_CHILDREN],
             $formatKeysMap($key, $node)
         )
     ];
 
+    $collection = collect($tree);
+    $sortedTree = $collection->sortBy('key')->toArray();
+
     $formattersData = array_map(function ($node) use ($formatterMap) {
         if (isset($formatterMap[$node[PROPERTY_DIFF_TYPE]])) {
             return trim($formatterMap[$node[PROPERTY_DIFF_TYPE]]($node)) . PHP_EOL;
         }
-    }, $three);
+    }, $sortedTree);
 
     return implode('', $formattersData);
 }
