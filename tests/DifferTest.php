@@ -91,7 +91,10 @@ class DifferTest extends TestCase
             ['file1.json', 'file2.json', 'plain', 'plain.txt'],
             ['file1.yml', 'file2.yml', 'plain', 'plain.txt'],
             ['file1.json', 'file2.json', 'json', 'json.txt'],
-            ['file1.yml', 'file2.yml', 'json', 'json.txt']
+            ['file1.yml', 'file2.yml', 'json', 'json.txt'],
+            ['file1.yaml', 'file2.yaml', 'stylish', 'stylish.txt'],
+            ['file1.yaml', 'file2.yaml', 'plain', 'plain.txt'],
+            ['file1.yaml', 'file2.yaml', 'json', 'json.txt'],
         ];
     }
 }

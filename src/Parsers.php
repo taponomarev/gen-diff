@@ -6,13 +6,15 @@ use function Differ\Parsers\Json\parse as parseJson;
 use function Differ\Parsers\Yml\parse as parseYml;
 
 const EXT_JSON = 'json';
-const EXT_YAML = 'yml';
+const EXT_YML = 'yml';
+const EXT_YAML = 'yaml';
 
 function parseFile(string $filePath): object
 {
     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
     $formatToMap = [
         EXT_JSON => fn($filePath) => parseJson($filePath),
+        EXT_YML => fn($filePath) => parseYml($filePath),
         EXT_YAML => fn($filePath) => parseYml($filePath)
     ];
 
