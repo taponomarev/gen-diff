@@ -58,6 +58,11 @@ function buildFormatTree(array $tree, int $depth): string
     return implode('', $formatterData);
 }
 
+/**
+ * @param mixed $value
+ * @param int $depth
+ * @return string
+ */
 function formatValue($value, int $depth): string
 {
     if (is_array($value)) {

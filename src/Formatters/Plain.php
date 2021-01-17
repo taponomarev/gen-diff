@@ -49,6 +49,10 @@ function buildFormatTree(array $tree, string $key): string
     return implode('', $formattersData);
 }
 
+/**
+ * @param mixed $value
+ * @return string
+ */
 function formatValue($value): string
 {
     if (is_array($value) || is_object($value)) {
