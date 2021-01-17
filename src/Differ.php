@@ -17,7 +17,7 @@ const DIFF_DEFAULT_FORMAT = 'stylish';
 use function Differ\Parsers\parseFile;
 use function Differ\Formatters\format;
 
-function genDiff($pathToFile1, $pathToFile2, $format = DIFF_DEFAULT_FORMAT): string
+function genDiff(string $pathToFile1, string $pathToFile2, string $format = DIFF_DEFAULT_FORMAT): string
 {
     $firstFile = parseFile($pathToFile1);
     $secondFile = parseFile($pathToFile2);

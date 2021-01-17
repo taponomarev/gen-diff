@@ -35,5 +35,5 @@ function run(): void
     ] = $params->args;
 
     $diff = genDiff($firstPathToFile, $secondPathToFile, $format);
-    print_r($diff . PHP_EOL);
+    echo($diff . PHP_EOL);
 }

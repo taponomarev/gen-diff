@@ -58,7 +58,7 @@ class DifferTest extends TestCase
         );
     }
 
-    public function testGenDiffInvalidExtension()
+    public function testGenDiffInvalidExtension(): void
     {
         $this->expectExceptionMessage("This extension 'txt' is not supported");
         genDiff(
@@ -67,7 +67,7 @@ class DifferTest extends TestCase
         );
     }
 
-    public function testGenDiffIsNotReadableFile()
+    public function testGenDiffIsNotReadableFile(): void
     {
         $actual = $this->generateFixturePath('file3.json');
         $this->expectExceptionMessage("This file '{$actual}' is not readable");

@@ -13,9 +13,9 @@ function parseFile(string $filePath): object
 {
     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
     $formatToMap = [
-        EXT_JSON => fn($filePath) => parseJson($filePath),
-        EXT_YML => fn($filePath) => parseYml($filePath),
-        EXT_YAML => fn($filePath) => parseYml($filePath)
+        EXT_JSON => fn($content) => parseJson($content),
+        EXT_YML => fn($content) => parseYml($content),
+        EXT_YAML => fn($content) => parseYml($content)
     ];
 
     if (!isset($formatToMap[$extension])) {
@@ -26,11 +26,13 @@ function parseFile(string $filePath): object
         throw new \Exception("This file '{$filePath}' is not readable");
     }
 
-    if (file_get_contents($filePath) === false) {
+    $content = file_get_contents($filePath);
+
+    if ($content === false) {
         throw new \Exception("This filepath '{$filePath}' is not readable");
     }
 
-    return $formatToMap[$extension]($filePath);
+    return $formatToMap[$extension]($content);
 }
 
 function isFileReadable(string $filePath): bool

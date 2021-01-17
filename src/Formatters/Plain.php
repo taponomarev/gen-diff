@@ -14,10 +14,10 @@ use const Differ\Differ\PROPERTY_OLD_VALUE;
 
 function buildFormat(array $tree): string
 {
-    return rtrim(buildFormatTree($tree));
+    return rtrim(buildFormatTree($tree, ''));
 }
 
-function buildFormatTree(array $tree, $key = null): string
+function buildFormatTree(array $tree, string $key): string
 {
     $formatKeysMap = fn($key, $node) => $key ? "{$key}.{$node[PROPERTY_DIFF_KEY]}" : $node[PROPERTY_DIFF_KEY];
     $formatterMap = [

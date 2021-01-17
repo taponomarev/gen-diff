@@ -58,7 +58,7 @@ function buildFormatTree(array $tree, int $depth): string
     return implode('', $formatterData);
 }
 
-function formatValue($value, $depth): string
+function formatValue($value, int $depth): string
 {
     if (is_array($value)) {
         return '[' . implode(', ', $value) . ']';
