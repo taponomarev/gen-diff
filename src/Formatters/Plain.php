@@ -39,10 +39,11 @@ function buildFormatTree(array $tree, $key = null): string
     $collection = collect($tree);
     $sortedTree = $collection->sortBy('key')->toArray();
 
-    $formattersData = array_map(function ($node) use ($formatterMap) {
+    $formattersData = array_map(function ($node) use ($formatterMap): string {
         if (isset($formatterMap[$node[PROPERTY_DIFF_TYPE]])) {
             return trim($formatterMap[$node[PROPERTY_DIFF_TYPE]]($node)) . PHP_EOL;
         }
+        return '';
     }, $sortedTree);
 
     return implode('', $formattersData);
@@ -63,8 +64,8 @@ function formatValue($value): string
     }
 
     if (is_integer($value)) {
-        return $value;
+        return (string) $value;
     }
 
-    return (string) "'{$value}'";
+    return "'{$value}'";
 }

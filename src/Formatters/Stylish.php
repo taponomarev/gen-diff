@@ -51,7 +51,7 @@ function buildFormatTree(array $tree, int $depth): string
     $collection = collect($tree);
     $sortedThree = $collection->sortBy('key')->toArray();
 
-    $formatterData = array_map(function ($node) use ($formatterMap) {
+    $formatterData = array_map(function ($node) use ($formatterMap): string {
         return $formatterMap[$node[PROPERTY_DIFF_TYPE]]($node) . PHP_EOL;
     }, $sortedThree);
 
@@ -76,7 +76,7 @@ function formatValue($value, $depth): string
         $indent = str_repeat(INDENT_DOUBLE, $depth);
         $keys = array_keys((array) $value);
 
-        return "{" . PHP_EOL . array_reduce($keys, function ($acc, $key) use ($indent, $value, $depth) {
+        return "{" . PHP_EOL . array_reduce($keys, function ($acc, $key) use ($indent, $value, $depth): string {
             return $acc . $indent . INDENT_DOUBLE . $key . ': ' . formatValue($value->$key, $depth + 1) . PHP_EOL;
         }, '') . $indent . "}";
     }

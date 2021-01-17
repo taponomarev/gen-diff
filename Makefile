@@ -9,6 +9,7 @@ autoload:
 
 lint:
 	composer run-script phpcs -- --standard=PSR12 src bin --standard=PSR12 tests bin
+	composer run-script phpstan-src
 
 tests:
 	composer exec --verbose phpunit tests
