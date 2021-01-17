@@ -14,7 +14,7 @@ use const Differ\Differ\PROPERTY_OLD_VALUE;
 
 function buildFormat(array $tree): string
 {
-    return buildFormatTree($tree);
+    return rtrim(buildFormatTree($tree));
 }
 
 function buildFormatTree(array $tree, $key = null): string
