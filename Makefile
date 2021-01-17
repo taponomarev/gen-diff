@@ -8,7 +8,7 @@ autoload:
 	composer dump-autoload
 
 lint:
-	composer run-script phpcs -- --standard=PSR12 src bin
+	composer run-script phpcs -- --standard=PSR12 src bin --standard=PSR12 tests bin
 
 tests:
 	composer exec --verbose phpunit tests

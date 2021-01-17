@@ -3,6 +3,7 @@
 namespace Differ\Tests;
 
 use PHPUnit\Framework\TestCase;
+
 use function Differ\Differ\genDiff;
 
 /**
@@ -30,9 +31,9 @@ class DifferTest extends TestCase
      * @param string $filename1
      * @param string $filename2
      * @param string $format
-     * @param string $resultFilename
+     * @param string $result
      */
-    public function testGenDiffSuccess(string $filename1, string $filename2, string $format, string $resultFilename): void
+    public function testGenDiffSuccess(string $filename1, string $filename2, string $format, string $result): void
     {
         $actualString = genDiff(
             $this->generateFixturePath($filename1),
@@ -40,10 +41,9 @@ class DifferTest extends TestCase
             $format
         );
         $this->assertStringEqualsFile(
-            $this->generateFixturePath($resultFilename),
+            $this->generateFixturePath($result),
             $actualString
         );
-
     }
 
     public function testGenDiffInvalidFormat(): void
