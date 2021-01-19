@@ -24,8 +24,8 @@ function buildFormatTree(array $tree, string $key): string
     $sortedTree = $collection->sortBy('key')->toArray();
 
     $filteredDiffData = array_map(function ($node) use ($key): string {
-        $formattedKey = $key ? "{$key}.{$node[PROPERTY_DIFF_KEY]}" : $node[PROPERTY_DIFF_KEY];
-        if (getDiffData($node, $formattedKey)) {
+        $formattedKey = $key != '' ? "{$key}.{$node[PROPERTY_DIFF_KEY]}" : $node[PROPERTY_DIFF_KEY];
+        if (getDiffData($node, $formattedKey) != '') {
             return trim(getDiffData($node, $formattedKey)) . INDENT_NEW_LINE;
         }
         return '';
