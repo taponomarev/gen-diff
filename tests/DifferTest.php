@@ -17,10 +17,12 @@ use function Differ\Differ\genDiff;
  * @covers Differ\Formatters\format
  * @covers Differ\Formatters\Stylish\buildFormat
  * @covers Differ\Formatters\Stylish\buildFormatTree
+ * @covers Differ\Formatters\Stylish\getDiffData
  * @covers Differ\Formatters\Stylish\formatValue
  * @covers Differ\Formatters\Plain\formatValue
  * @covers Differ\Formatters\Plain\buildFormat
  * @covers Differ\Formatters\Plain\buildFormatTree
+ * @covers Differ\Formatters\Plain\getDiffData
  * @covers Differ\Formatters\Json\buildFormat
  */
 
@@ -31,9 +33,9 @@ class DifferTest extends TestCase
      * @param string $filename1
      * @param string $filename2
      * @param string $format
-     * @param string $result
+     * @param string $diffFilename
      */
-    public function testGenDiffSuccess(string $filename1, string $filename2, string $format, string $result): void
+    public function testGenDiffSuccess(string $filename1, string $filename2, string $format, string $diffFilename): void
     {
         $actualString = genDiff(
             $this->generateFixturePath($filename1),
@@ -41,7 +43,7 @@ class DifferTest extends TestCase
             $format
         );
         $this->assertStringEqualsFile(
-            $this->generateFixturePath($result),
+            $this->generateFixturePath($diffFilename),
             $actualString
         );
     }
@@ -78,6 +80,10 @@ class DifferTest extends TestCase
         );
     }
 
+    /**
+     * @param string $filename
+     * @return string
+     */
     public function generateFixturePath(string $filename): string
     {
         return implode(DIRECTORY_SEPARATOR, ['tests', 'fixtures', $filename]);

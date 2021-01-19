@@ -12,17 +12,17 @@ const EXT_YAML = 'yaml';
 function parseFile(string $filePath): object
 {
     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-    $formatToMap = [
+    $formatToMapFormats = [
         EXT_JSON => fn($content) => parseJson($content),
         EXT_YML => fn($content) => parseYml($content),
         EXT_YAML => fn($content) => parseYml($content)
     ];
 
-    if (!isset($formatToMap[$extension])) {
+    if (!isset($formatToMapFormats[$extension])) {
         throw new \Exception("This extension '{$extension}' is not supported");
     }
 
-    if (isFileReadable($filePath)) {
+    if (!isFileReadable($filePath)) {
         throw new \Exception("This file '{$filePath}' is not readable");
     }
 
@@ -32,10 +32,10 @@ function parseFile(string $filePath): object
         throw new \Exception("This filepath '{$filePath}' is not readable");
     }
 
-    return $formatToMap[$extension]($content);
+    return $formatToMapFormats[$extension]($content);
 }
 
 function isFileReadable(string $filePath): bool
 {
-    return !is_file($filePath) && !is_readable($filePath);
+    return is_file($filePath) && is_readable($filePath);
 }

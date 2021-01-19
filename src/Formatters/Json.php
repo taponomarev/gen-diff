@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Json;
 
-function buildFormat(array $three): string
+function buildFormat(array $tree): string
 {
-    return (string) json_encode($three, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    return (string) json_encode($tree, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }

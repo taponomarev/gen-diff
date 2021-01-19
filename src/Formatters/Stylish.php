@@ -13,6 +13,7 @@ use const Differ\Differ\DIFF_TYPE_OBJECT;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
 use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_UPDATED;
+use const Differ\Differ\INDENT_NEW_LINE;
 use const Differ\Differ\PROPERTY_DIFF_KEY;
 use const Differ\Differ\PROPERTY_DIFF_OBJECT_CHILDREN;
 use const Differ\Differ\PROPERTY_DIFF_TYPE;
@@ -27,35 +28,47 @@ function buildFormat(array $tree): string
 function buildFormatTree(array $tree, int $depth): string
 {
     $indent = str_repeat(INDENT_DOUBLE, $depth - 1) . INDENT_DEFAULT;
-    $formatterMap = [
-        DIFF_TYPE_ADDED => fn($node) => $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
-            . formatValue($node[PROPERTY_NEW_VALUE], $depth),
-
-        DIFF_TYPE_REMOVED => fn($node) => $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
-            . formatValue($node[PROPERTY_OLD_VALUE], $depth),
-
-        DIFF_TYPE_UNCHANGED => fn($node) => $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
-            . formatValue($node[PROPERTY_OLD_VALUE], $depth),
-
-        DIFF_TYPE_UPDATED => fn($node) => $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
-            . formatValue($node[PROPERTY_OLD_VALUE], $depth) . PHP_EOL
-            . $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
-            . formatValue($node[PROPERTY_NEW_VALUE], $depth),
-
-        DIFF_TYPE_OBJECT => fn($node) => $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY]
-            . INDENT_COLON . "{" . PHP_EOL
-            . buildFormatTree($node[PROPERTY_DIFF_OBJECT_CHILDREN], $depth + 1)
-            . $indent . INDENT_DEFAULT . "}"
-    ];
-
     $collection = collect($tree);
-    $sortedThree = $collection->sortBy('key')->toArray();
+    $sortedTree = $collection->sortBy('key')->toArray();
 
-    $formatterData = array_map(function ($node) use ($formatterMap): string {
-        return $formatterMap[$node[PROPERTY_DIFF_TYPE]]($node) . PHP_EOL;
-    }, $sortedThree);
+    $filteredDiffData = array_map(function ($node) use ($indent, $depth): string {
+        return getDiffData($node, $indent, $depth) . INDENT_NEW_LINE;
+    }, $sortedTree);
 
-    return implode('', $formatterData);
+    return implode('', $filteredDiffData);
+}
+
+/**
+ * @param mixed $node
+ * @param string $indent
+ * @param int $depth
+ * @return string
+ */
+function getDiffData($node, string $indent, int $depth): string
+{
+    switch ($node[PROPERTY_DIFF_TYPE]) {
+        case DIFF_TYPE_ADDED:
+            return $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+                . formatValue($node[PROPERTY_NEW_VALUE], $depth);
+        case DIFF_TYPE_REMOVED:
+            return $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+            . formatValue($node[PROPERTY_OLD_VALUE], $depth);
+        case DIFF_TYPE_UNCHANGED:
+            return $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+            . formatValue($node[PROPERTY_OLD_VALUE], $depth);
+        case DIFF_TYPE_UPDATED:
+            return $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+                . formatValue($node[PROPERTY_OLD_VALUE], $depth) . INDENT_NEW_LINE
+                . $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+                . formatValue($node[PROPERTY_NEW_VALUE], $depth);
+        case DIFF_TYPE_OBJECT:
+            return $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY]
+                . INDENT_COLON . "{" . INDENT_NEW_LINE
+                . buildFormatTree($node[PROPERTY_DIFF_OBJECT_CHILDREN], $depth + 1)
+                . $indent . INDENT_DEFAULT . "}";
+        default:
+            return "";
+    }
 }
 
 /**
@@ -81,8 +94,9 @@ function formatValue($value, int $depth): string
         $indent = str_repeat(INDENT_DOUBLE, $depth);
         $keys = array_keys((array) $value);
 
-        return "{" . PHP_EOL . array_reduce($keys, function ($acc, $key) use ($indent, $value, $depth): string {
-            return $acc . $indent . INDENT_DOUBLE . $key . ': ' . formatValue($value->$key, $depth + 1) . PHP_EOL;
+        return "{" . INDENT_NEW_LINE . array_reduce($keys, function ($acc, $key) use ($indent, $value, $depth): string {
+            return $acc . $indent . INDENT_DOUBLE . $key . ': '
+                . formatValue($value->$key, $depth + 1) . INDENT_NEW_LINE;
         }, '') . $indent . "}";
     }
 

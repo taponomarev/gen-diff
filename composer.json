@@ -12,7 +12,6 @@
     "license": "MIT",
     "autoload": {
         "files": [
-            "src/Cli.php",
             "src/Differ.php",
             "src/Parsers.php",
             "src/Parsers/Json.php",
