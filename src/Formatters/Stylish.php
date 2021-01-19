@@ -6,14 +6,12 @@ const INDENT_DOUBLE = '    ';
 const INDENT_DEFAULT = '  ';
 const INDENT_ADD = '+ ';
 const INDENT_REMOVE = '- ';
-const INDENT_COLON = ': ';
 
 use const Differ\Differ\DIFF_TYPE_ADDED;
 use const Differ\Differ\DIFF_TYPE_OBJECT;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
 use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_UPDATED;
-use const Differ\Differ\INDENT_NEW_LINE;
 use const Differ\Differ\PROPERTY_DIFF_KEY;
 use const Differ\Differ\PROPERTY_DIFF_OBJECT_CHILDREN;
 use const Differ\Differ\PROPERTY_DIFF_TYPE;
@@ -32,7 +30,7 @@ function buildFormatTree(array $tree, int $depth): string
     $sortedTree = $collection->sortBy('key')->toArray();
 
     $filteredDiffData = array_map(function ($node) use ($indent, $depth): string {
-        return getDiffData($node, $indent, $depth) . INDENT_NEW_LINE;
+        return getDiffData($node, $indent, $depth) . "\n";
     }, $sortedTree);
 
     return implode('', $filteredDiffData);
@@ -48,26 +46,26 @@ function getDiffData($node, string $indent, int $depth): string
 {
     switch ($node[PROPERTY_DIFF_TYPE]) {
         case DIFF_TYPE_ADDED:
-            return $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+            return $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . ': '
                 . formatValue($node[PROPERTY_NEW_VALUE], $depth);
         case DIFF_TYPE_REMOVED:
-            return $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+            return $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . ': '
             . formatValue($node[PROPERTY_OLD_VALUE], $depth);
         case DIFF_TYPE_UNCHANGED:
-            return $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+            return $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY] . ': '
             . formatValue($node[PROPERTY_OLD_VALUE], $depth);
         case DIFF_TYPE_UPDATED:
-            return $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
-                . formatValue($node[PROPERTY_OLD_VALUE], $depth) . INDENT_NEW_LINE
-                . $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . INDENT_COLON
+            return $indent . INDENT_REMOVE . $node[PROPERTY_DIFF_KEY] . ': '
+                . formatValue($node[PROPERTY_OLD_VALUE], $depth) . "\n"
+                . $indent . INDENT_ADD . $node[PROPERTY_DIFF_KEY] . ': '
                 . formatValue($node[PROPERTY_NEW_VALUE], $depth);
         case DIFF_TYPE_OBJECT:
             return $indent . INDENT_DEFAULT . $node[PROPERTY_DIFF_KEY]
-                . INDENT_COLON . "{" . INDENT_NEW_LINE
+                . ': ' . "{\n"
                 . buildFormatTree($node[PROPERTY_DIFF_OBJECT_CHILDREN], $depth + 1)
                 . $indent . INDENT_DEFAULT . "}";
         default:
-            return "";
+            throw new \Exception("This type '{$node[PROPERTY_DIFF_TYPE]}' for format 'Stylish' is not supported");
     }
 }
 
@@ -94,9 +92,9 @@ function formatValue($value, int $depth): string
         $indent = str_repeat(INDENT_DOUBLE, $depth);
         $keys = array_keys((array) $value);
 
-        return "{" . INDENT_NEW_LINE . array_reduce($keys, function ($acc, $key) use ($indent, $value, $depth): string {
+        return "{\n" . array_reduce($keys, function ($acc, $key) use ($indent, $value, $depth): string {
             return $acc . $indent . INDENT_DOUBLE . $key . ': '
-                . formatValue($value->$key, $depth + 1) . INDENT_NEW_LINE;
+                . formatValue($value->$key, $depth + 1) . "\n";
         }, '') . $indent . "}";
     }
 

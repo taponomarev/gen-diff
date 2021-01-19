@@ -13,7 +13,6 @@ const PROPERTY_DIFF_KEY = 'key';
 const PROPERTY_DIFF_TYPE = 'type';
 const PROPERTY_DIFF_OBJECT_CHILDREN = 'children';
 const DIFF_DEFAULT_FORMAT = 'stylish';
-const INDENT_NEW_LINE = "\n";
 
 use function Differ\Parsers\parseFile;
 use function Differ\Formatters\format;
@@ -22,8 +21,8 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = DIFF
 {
     $firstData = parseFile($pathToFile1);
     $secondData = parseFile($pathToFile2);
-    $diffAst = genDiffTree($firstData, $secondData);
-    return format($diffAst, $format);
+    $diffTree = genDiffTree($firstData, $secondData);
+    return format($diffTree, $format);
 }
 
 function genDiffTree(object $firstData, object $secondData): array

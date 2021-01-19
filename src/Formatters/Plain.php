@@ -5,8 +5,8 @@ namespace Differ\Formatters\Plain;
 use const Differ\Differ\DIFF_TYPE_ADDED;
 use const Differ\Differ\DIFF_TYPE_OBJECT;
 use const Differ\Differ\DIFF_TYPE_REMOVED;
+use const Differ\Differ\DIFF_TYPE_UNCHANGED;
 use const Differ\Differ\DIFF_TYPE_UPDATED;
-use const Differ\Differ\INDENT_NEW_LINE;
 use const Differ\Differ\PROPERTY_DIFF_KEY;
 use const Differ\Differ\PROPERTY_DIFF_OBJECT_CHILDREN;
 use const Differ\Differ\PROPERTY_DIFF_TYPE;
@@ -26,7 +26,7 @@ function buildFormatTree(array $tree, string $key): string
     $filteredDiffData = array_map(function ($node) use ($key): string {
         $formattedKey = $key != '' ? "{$key}.{$node[PROPERTY_DIFF_KEY]}" : $node[PROPERTY_DIFF_KEY];
         if (getDiffData($node, $formattedKey) != '') {
-            return trim(getDiffData($node, $formattedKey)) . INDENT_NEW_LINE;
+            return trim(getDiffData($node, $formattedKey)) . "\n";
         }
         return '';
     }, $sortedTree);
@@ -53,8 +53,10 @@ function getDiffData($node, string $key): string
                 . formatValue($node[PROPERTY_NEW_VALUE]);
         case DIFF_TYPE_OBJECT:
             return buildFormatTree($node[PROPERTY_DIFF_OBJECT_CHILDREN], $key);
+        case DIFF_TYPE_UNCHANGED:
+            return "";
         default:
-            return '';
+            throw new \Exception("This type '{$node[PROPERTY_DIFF_TYPE]}' for format 'Plain' is not supported");
     }
 }
 
