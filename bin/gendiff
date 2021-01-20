@@ -42,4 +42,4 @@ $params = $handler->handle($doc);
 ] = $params->args;
 
 $diff = genDiff($firstPathToFile, $secondPathToFile, $format);
-echo($diff . \Differ\Differ\INDENT_NEW_LINE);
+echo($diff . "\n");
