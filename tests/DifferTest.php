@@ -48,6 +48,18 @@ class DifferTest extends TestCase
         );
     }
 
+    public function testGenDiffSuccessWithDefaultFormat(): void
+    {
+        $actualString = genDiff(
+            $this->generateFixturePath('file1.json'),
+            $this->generateFixturePath('file2.json'),
+        );
+        $this->assertStringEqualsFile(
+            $this->generateFixturePath('stylish.txt'),
+            $actualString
+        );
+    }
+
     public function testGenDiffInvalidFormat(): void
     {
         $format = 'invalid';
