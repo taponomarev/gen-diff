@@ -5,7 +5,7 @@ The library compares the difference of two files
 [![Actions Status](https://github.com/taponomarev/php-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/taponomarev/php-project-lvl2/actions)
 [![Build Status](https://github.com/taponomarev/php-project-lvl2/workflows/Build/badge.svg)](https://github.com/taponomarev/php-project-lvl2/actions)
 [![Tests Status](https://github.com/taponomarev/php-project-lvl2/workflows/Tests/badge.svg)](https://github.com/taponomarev/php-project-lvl2/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/71b04dade761eed733ad/maintainability)](https://codeclimate.com/github/taponomarev/php-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/71b04dade761eed733ad/test_coverage)](https://codeclimate.com/github/taponomarev/php-project-lvl2/test_coverage)
 
 ## Usage
